@@ -55,3 +55,44 @@ chmod 400 .ssh/id_rsa*
 ssh-copy-id algueron@compute01
 ssh-copy-id algueron@compute02
 ````
+
+### Setup Docker
+- On each machine, setup Docker
+````bash
+sudo apt install -y docker.io
+````
+
+## Kolla Ansible setup
+
+### Setup Python
+- On deployment, install Python system dependencies
+````bash
+sudo apt install -y git python3-dev libffi-dev gcc libssl-dev
+````
+- Install PIP
+````bash
+sudo apt install -y python3-pip
+````
+- Ensure you're using the latest version of PIP
+````bash
+sudo pip install -U pip
+````
+
+### Setup Ansible
+
+- Install Ansible. Kolla Ansible requires at least Ansible 4 and supports up to 5.
+````bash
+sudo pip3 install 'ansible>=4,<6'
+````
+
+### Setup Kolla Ansible
+
+- Install Kolla Ansible. We're using the Zed release.
+````bash
+sudo pip3 install git+https://opendev.org/openstack/kolla-ansible@stable/zed
+````
+- Create Kolla Ansible configuration directory
+````bash
+sudo mkdir -p /etc/kolla
+sudo chown $USER:$USER /etc/kolla
+````
