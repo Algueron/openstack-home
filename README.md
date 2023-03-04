@@ -13,11 +13,20 @@ We also have 2 networks :
 
 Physical hosts must be connected to both networks, deployment node only needs Management network.
 
-## Prerequisites
+## Prerequisites for all machines
 
 - Setup Ubuntu Jammy 22.04 on all hosts
 - Create a user with passwordless sudo on all machines
 ````bash
 echo "myuser ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/myuser
 ````
-- Edit hosts file on all machines to be able to contact physical hosts using hostname
+- Edit hosts file on all machines to be able to contact physical hosts using hostname (see [Hosts file](etc/hosts))
+
+## Setup Promiscuous mode on Provider Network
+
+- On each physical host, get the list of network interfaces
+````bash
+ip addr
+````
+- Create a service bridge-promisc to enable promiscuous mode (replace enp7s0 with appropriate interface)
+[bridge-promisc.service](etc/systemd/system/bridge-promisc.service)
