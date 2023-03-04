@@ -30,3 +30,15 @@ ip addr
 ````
 - Create a service bridge-promisc to enable promiscuous mode (replace enp7s0 with appropriate interface)
 [bridge-promisc.service](etc/systemd/system/bridge-promisc.service)
+- Reload the services definitions
+````bash
+sudo systemctl daemon-reload
+````
+- Starts the service
+````bash
+sudo systemctl start bridge-promisc
+````
+- Activate the service at reboot
+````bash
+sudo systemctl enable bridge-promisc
+````
