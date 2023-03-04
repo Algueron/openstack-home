@@ -13,7 +13,9 @@ We also have 2 networks :
 
 Physical hosts must be connected to both networks, deployment node only needs Management network.
 
-## Prerequisites for all machines
+## Preparation
+
+### Prerequisites for all machines
 
 - Setup Ubuntu Jammy 22.04 on all hosts
 - Create a user with passwordless sudo on all machines
@@ -22,7 +24,7 @@ echo "myuser ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/myuser
 ````
 - Edit hosts file on all machines to be able to contact physical hosts using hostname (see [Hosts file](etc/hosts))
 
-## Setup Promiscuous mode on Provider Network
+### Setup Promiscuous mode on Provider Network
 
 - On each physical host, get the list of network interfaces
 ````bash
@@ -41,4 +43,15 @@ sudo systemctl start bridge-promisc
 - Activate the service at reboot
 ````bash
 sudo systemctl enable bridge-promisc
+````
+
+### SSH configuration
+- On deployment, upload your custom SSH key pair and ensures the proper access rights are set
+````bash
+chmod 400 .ssh/id_rsa*
+````
+- Initiate connection to both compute nodes from deployment
+````bash
+ssh-copy-id algueron@compute01
+ssh-copy-id algueron@compute02
 ````
