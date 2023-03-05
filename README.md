@@ -134,3 +134,11 @@ wget -P /etc/kolla/ https://raw.githubusercontent.com/Algueron/openstack-home/ma
 ````bash
 wget -P /etc/kolla/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/multinode
 ````
+- Download [compute01 configuration file](etc/kolla/host_vars/compute01)
+````bash
+wget -P /etc/kolla/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/host_vars/compute01
+````
+- Download [compute02 configuration file](etc/kolla/host_vars/compute02)
+````bash
+wget -P /etc/kolla/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/host_vars/compute02
+````
