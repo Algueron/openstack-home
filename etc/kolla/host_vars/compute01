@@ -1,0 +1,13 @@
+##############################
+# Neutron - Networking Options
+##############################
+# This interface is what all your api services will be bound to by default.
+# Additionally, all vxlan/tunnel and storage network traffic will go over this
+# interface by default. This interface must contain an IP address.
+# It is possible for hosts to have non-matching names of interfaces - these can
+# be set in an inventory file per host or per group or stored separately, see
+#     http://docs.ansible.com/ansible/intro_inventory.html
+# Yet another way to workaround the naming problem is to create a bond for the
+# interface on all hosts and give the bond name here. Similar strategy can be
+# followed for other types of interfaces.
+network_interface: "enp4s0"
