@@ -96,11 +96,19 @@ sudo pip3 install git+https://opendev.org/openstack/kolla-ansible@stable/zed
 sudo mkdir -p /etc/kolla
 sudo chown $USER:$USER /etc/kolla
 ````
-- Download password configuration file
+- Download [passwords configuration file](etc/kolla/passwords.yml)
 ````bash
 wget -P /etc/kolla/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/passwords.yml
 ````
-- Download globals configuration file
+- Download [globals configuration file](etc/kolla/globals.yml)
 ````bash
 wget -P /etc/kolla/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/globals.yml
+````
+- Download [inventory file](etc/kolla/multinode)
+````bash
+wget -P /etc/kolla/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/multinode
+````
+- Install Kolla Ansible dependencies
+````bash
+kolla-ansible install-deps
 ````
