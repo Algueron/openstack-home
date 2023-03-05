@@ -167,3 +167,10 @@ kolla-ansible -i /etc/kolla/multinode prechecks
 ````bash
 kolla-ansible -i /etc/kolla/multinode deploy
 ````
+
+### Administrator credentials
+
+- OpenStack requires a clouds.yaml file where credentials for the admin user are set. To generate this file :
+````bash
+kolla-ansible -i /etc/kolla/multinode post-deploy
+````
