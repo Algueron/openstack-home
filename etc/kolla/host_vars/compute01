@@ -17,3 +17,8 @@ network_interface: "enp4s0"
 # configurations. It is recommended this interface not be configured with any IP
 # addresses for that reason.
 neutron_external_interface: "enp7s0"
+
+################################
+# Cinder - Block Storage Options
+################################
+#cinder_volume_group: "cinder-volumes"
