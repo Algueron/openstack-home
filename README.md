@@ -95,6 +95,7 @@ sudo pip3 install git+https://opendev.org/openstack/kolla-ansible@stable/zed
 ````bash
 sudo mkdir -p /etc/kolla
 sudo chown $USER:$USER /etc/kolla
+mkdir /etc/kolla/host_vars
 ````
 - Install Kolla Ansible dependencies
 ````bash
