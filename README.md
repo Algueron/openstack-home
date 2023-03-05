@@ -188,3 +188,13 @@ sudo pip3 install python-openstackclient -c https://releases.openstack.org/const
 ### Security Groups creation
 ### SSH Keypair creation
 ### Images creation
+
+- On deployment node, download the jammy ubuntu image
+````bash
+wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
+````
+- Upload the image to Glance
+````bash
+. /etc/kolla/admin-openrc.sh
+openstack image create --disk-format qcow2 --container-format bare   --public --file jammy-server-cloudimg-amd64.img ubuntu-server-22.04
+````
