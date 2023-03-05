@@ -11,3 +11,9 @@
 # interface on all hosts and give the bond name here. Similar strategy can be
 # followed for other types of interfaces.
 network_interface: "enp4s0"
+
+# This is the raw interface given to neutron as its external network port. Even
+# though an IP address can exist on this interface, it will be unusable in most
+# configurations. It is recommended this interface not be configured with any IP
+# addresses for that reason.
+neutron_external_interface: "enp7s0"
