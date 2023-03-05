@@ -30,7 +30,7 @@ echo "myuser ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/myuser
 ````bash
 ip addr
 ````
-- Create a service bridge-promisc to enable promiscuous mode (replace enp7s0 with appropriate interface)
+- Create a service bridge-promisc to enable promiscuous mode (replace enp4s0 and enp7s0 with appropriate interfaces)
 [bridge-promisc.service](etc/systemd/system/bridge-promisc.service)
 - Reload the services definitions
 ````bash
