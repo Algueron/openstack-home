@@ -174,3 +174,11 @@ kolla-ansible -i /etc/kolla/multinode deploy
 ````bash
 kolla-ansible -i /etc/kolla/multinode post-deploy
 ````
+
+## Cloud Bootstraping
+
+### Openstack CLI Setup
+### External Network creation
+### Security Groups creation
+### SSH Keypair creation
+### Images creation
