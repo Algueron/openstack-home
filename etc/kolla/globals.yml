@@ -294,7 +294,7 @@ kolla_internal_vip_address: "192.168.0.11"
 # could disable some of these required roles and run their own services.
 #enable_glance: "{{ enable_openstack_core | bool }}"
 #enable_hacluster: "no"
-#enable_haproxy: "yes"
+enable_haproxy: "no"
 #enable_keepalived: "{{ enable_haproxy | bool }}"
 #enable_keystone: "{{ enable_openstack_core | bool }}"
 #enable_mariadb: "yes"
