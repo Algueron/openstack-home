@@ -160,3 +160,10 @@ Note: It may fail due to "docker.service: Start request repeated too quickly.". 
 ````bash
 kolla-ansible -i /etc/kolla/multinode prechecks
 ````
+
+### Deployment
+
+- Finally proceed to actual OpenStack deployment
+````bash
+kolla-ansible -i /etc/kolla/multinode deploy
+````
