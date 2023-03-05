@@ -130,6 +130,7 @@ wget -P /etc/kolla/ https://raw.githubusercontent.com/Algueron/openstack-home/ma
 ````
 
 ### Inventory configuration
+
 - Download [inventory file](etc/kolla/multinode)
 ````bash
 wget -P /etc/kolla/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/multinode
@@ -142,3 +143,14 @@ wget -P /etc/kolla/host_vars/ https://raw.githubusercontent.com/Algueron/opensta
 ````bash
 wget -P /etc/kolla/host_vars/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/host_vars/compute02
 ````
+
+## Openstack Deployment
+
+### Bootstrap
+
+- Bootstrap servers with kolla deploy dependencies
+````bash
+kolla-ansible -i /etc/kolla/multinode bootstrap-servers
+````
+Note: It may fail due to "docker.service: Start request repeated too quickly.". Just re-run the command which should now be fine.
+
