@@ -21,4 +21,4 @@ neutron_external_interface: "enp7s0"
 ################################
 # Cinder - Block Storage Options
 ################################
-#cinder_volume_group: "cinder-volumes"
+cinder_volume_group: "cinder-volumes"
