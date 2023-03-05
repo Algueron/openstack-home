@@ -178,6 +178,12 @@ kolla-ansible -i /etc/kolla/multinode post-deploy
 ## Cloud Bootstraping
 
 ### Openstack CLI Setup
+
+- On deployment node, install Openstack CLI :
+````bash
+sudo pip3 install python-openstackclient -c https://releases.openstack.org/constraints/upper/zed
+````
+
 ### External Network creation
 ### Security Groups creation
 ### SSH Keypair creation
