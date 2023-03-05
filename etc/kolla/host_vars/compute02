@@ -21,4 +21,4 @@ neutron_external_interface: "enp9s0"
 ################################
 # Cinder - Block Storage Options
 ################################
-#cinder_volume_group: "ubuntu-vg"
+cinder_volume_group: "ubuntu-vg"
