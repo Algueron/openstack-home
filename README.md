@@ -20,7 +20,7 @@ Physical hosts must be connected to both networks, deployment node only needs Ma
 - Setup Ubuntu Jammy 22.04 on all hosts
 - Create a user with passwordless sudo on all machines
 ````bash
-echo "myuser ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/myuser
+echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$USER
 ````
 - Edit hosts file on all machines to be able to contact physical hosts using hostname (see [Hosts file](etc/hosts))
 
