@@ -161,6 +161,13 @@ Note: It may fail due to "docker.service: Start request repeated too quickly.". 
 kolla-ansible -i /etc/kolla/multinode prechecks
 ````
 
+### Certificates Generation
+
+- Generate certificates for Octavia
+````bash
+kolla-ansible octavia-certificates
+````
+
 ### Deployment
 
 - Finally proceed to actual OpenStack deployment
