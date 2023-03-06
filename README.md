@@ -196,7 +196,7 @@ openstack network create --share --enable --project admin --external --provider-
 ````
 - Create the Provider subnet
 ````bash
-openstack ???
+openstack subnet create --project admin --subnet-range "172.16.0.0/12" --dhcp --gateway "172.16.0.1" --ip-version 4 --network provider01 provider-subnet
 ````
 
 ### Security Groups creation
