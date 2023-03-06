@@ -200,6 +200,25 @@ openstack subnet create --project admin --subnet-range "172.16.0.0/12" --dhcp --
 ````
 
 ### Security Groups creation
+
+- Create a security group to allow ICMP
+````bash
+openstack security group create --project admin --stateful allow-icmp
+````
+- Add the rule to allow ICMP
+````bash
+openstack security group rule create --remote-ip "0.0.0.0/0" --protocol icmp --ingress --project admin allow-icmp
+````
+- Create a security group to allow SSH
+````bash
+openstack security group create --project admin --stateful allow-ssh
+````
+- Add the rule to allow ICMP
+````bash
+openstack security group rule create --remote-ip "0.0.0.0/0" --protocol tcp --dst-port 22 --ingress --project admin allow-ssh
+````
+
+
 ### SSH Keypair creation
 ### Images creation
 
