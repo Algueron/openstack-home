@@ -218,8 +218,13 @@ openstack security group create --project admin --stateful allow-ssh
 openstack security group rule create --remote-ip "0.0.0.0/0" --protocol tcp --dst-port 22 --ingress --project admin allow-ssh
 ````
 
-
 ### SSH Keypair creation
+
+- Create your keypair using your public SSH key
+````bash
+openstack keypair create --public-key .ssh/id_rsa.pub --type ssh my-key
+````
+
 ### Images creation
 
 - On deployment node, download the jammy ubuntu image
