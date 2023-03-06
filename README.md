@@ -235,3 +235,94 @@ wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.i
 ````bash
 openstack image create --disk-format qcow2 --container-format bare   --public --file jammy-server-cloudimg-amd64.img ubuntu-server-22.04
 ````
+
+### Flavors creation
+
+- Create the default flavors
+````bash
+openstack flavor create c1.medium --id auto --vcpus 2 --ram 2048 --ephemeral 5 --public
+openstack flavor create c1.xlarge --id auto --vcpus 8 --ram 8192 --ephemeral 5 --public
+openstack flavor create c3.2xlarge --id auto --vcpus 8 --ram 8192 --ephemeral 5 --public
+openstack flavor create c3.4xlarge --id auto --vcpus 16 --ram 16384 --ephemeral 5 --public
+openstack flavor create c3.8xlarge --id auto --vcpus 32 --ram 32768 --ephemeral 5 --public
+openstack flavor create c3.large --id auto --vcpus 2 --ram 2048 --ephemeral 5 --public
+openstack flavor create c3.xlarge --id auto --vcpus 4 --ram 4096 --ephemeral 5 --public
+openstack flavor create c4.2xlarge --id auto --vcpus 8 --ram 8192 --ephemeral 5 --public
+openstack flavor create c4.4xlarge --id auto --vcpus 16 --ram 16384 --ephemeral 5 --public
+openstack flavor create c4.8xlarge --id auto --vcpus 36 --ram 36864 --ephemeral 5 --public
+openstack flavor create c4.large --id auto --vcpus 2 --ram 2048 --ephemeral 5 --public
+openstack flavor create c4.xlarge --id auto --vcpus 4 --ram 4096 --ephemeral 5 --public
+openstack flavor create c5.18xlarge --id auto --vcpus 72 --ram 73728 --ephemeral 5 --public
+openstack flavor create c5.2xlarge --id auto --vcpus 8 --ram 8192 --ephemeral 5 --public
+openstack flavor create c5.4xlarge --id auto --vcpus 16 --ram 16384 --ephemeral 5 --public
+openstack flavor create c5.9xlarge --id auto --vcpus 36 --ram 36864 --ephemeral 5 --public
+openstack flavor create c5.large --id auto --vcpus 2 --ram 2048 --ephemeral 5 --public
+openstack flavor create c5.xlarge --id auto --vcpus 4 --ram 4096 --ephemeral 5 --public
+openstack flavor create cc2.8xlarge --id auto --vcpus 32 --ram 32768 --ephemeral 5 --public
+openstack flavor create cg1.4xlarge --id auto --vcpus 16 --ram 16384 --ephemeral 5 --public
+openstack flavor create cr1.8xlarge --id auto --vcpus 32 --ram 32768 --ephemeral 5 --public
+openstack flavor create d2.2xlarge --id auto --vcpus 8 --ram 8192 --ephemeral 5 --public
+openstack flavor create d2.4xlarge --id auto --vcpus 16 --ram 16384 --ephemeral 5 --public
+openstack flavor create d2.8xlarge --id auto --vcpus 36 --ram 36864 --ephemeral 5 --public
+openstack flavor create d2.xlarge --id auto --vcpus 4 --ram 4096 --ephemeral 5 --public
+openstack flavor create f1.16xlarge --id auto --vcpus 64 --ram 65536 --ephemeral 5 --public
+openstack flavor create f1.2xlarge --id auto --vcpus 8 --ram 8192 --ephemeral 5 --public
+openstack flavor create g2.2xlarge --id auto --vcpus 8 --ram 8192 --ephemeral 5 --public
+openstack flavor create g2.8xlarge --id auto --vcpus 32 --ram 32768 --ephemeral 5 --public
+openstack flavor create g3.16xlarge --id auto --vcpus 64 --ram 65536 --ephemeral 5 --public
+openstack flavor create g3.4xlarge --id auto --vcpus 16 --ram 16384 --ephemeral 5 --public
+openstack flavor create g3.8xlarge --id auto --vcpus 32 --ram 32768 --ephemeral 5 --public
+openstack flavor create hi1.4xlarge --id auto --vcpus 16 --ram 16384 --ephemeral 5 --public
+openstack flavor create hs1.8xlarge --id auto --vcpus 16 --ram 16384 --ephemeral 5 --public
+openstack flavor create i2.2xlarge --id auto --vcpus 8 --ram 8192 --ephemeral 5 --public
+openstack flavor create i2.4xlarge --id auto --vcpus 16 --ram 16384 --ephemeral 5 --public
+openstack flavor create i2.8xlarge --id auto --vcpus 32 --ram 32768 --ephemeral 5 --public
+openstack flavor create i2.xlarge --id auto --vcpus 4 --ram 4096 --ephemeral 5 --public
+openstack flavor create i3.16xlarge --id auto --vcpus 64 --ram 65536 --ephemeral 5 --public
+openstack flavor create i3.2xlarge --id auto --vcpus 8 --ram 8192 --ephemeral 5 --public
+openstack flavor create i3.4xlarge --id auto --vcpus 16 --ram 16384 --ephemeral 5 --public
+openstack flavor create i3.8xlarge --id auto --vcpus 32 --ram 32768 --ephemeral 5 --public
+openstack flavor create i3.large --id auto --vcpus 2 --ram 2048 --ephemeral 5 --public
+openstack flavor create i3.xlarge --id auto --vcpus 4 --ram 4096 --ephemeral 5 --public
+openstack flavor create m1.large --id auto --vcpus 2 --ram 2048 --ephemeral 5 --public
+openstack flavor create m1.medium --id auto --vcpus 1 --ram 1024 --ephemeral 5 --public
+openstack flavor create m1.small --id auto --vcpus 1 --ram 1024 --ephemeral 5 --public
+openstack flavor create m1.xlarge --id auto --vcpus 4 --ram 4096 --ephemeral 5 --public
+openstack flavor create m2.2xlarge --id auto --vcpus 4 --ram 4096 --ephemeral 5 --public
+openstack flavor create m2.4xlarge --id auto --vcpus 8 --ram 8192 --ephemeral 5 --public
+openstack flavor create m2.xlarge --id auto --vcpus 2 --ram 2048 --ephemeral 5 --public
+openstack flavor create m3.2xlarge --id auto --vcpus 8 --ram 8192 --ephemeral 5 --public
+openstack flavor create m3.large --id auto --vcpus 2 --ram 2048 --ephemeral 5 --public
+openstack flavor create m3.medium --id auto --vcpus 1 --ram 1024 --ephemeral 5 --public
+openstack flavor create m3.xlarge --id auto --vcpus 4 --ram 4096 --ephemeral 5 --public
+openstack flavor create m4.10xlarge --id auto --vcpus 40 --ram 40960 --ephemeral 5 --public
+openstack flavor create m4.16xlarge --id auto --vcpus 64 --ram 65536 --ephemeral 5 --public
+openstack flavor create m4.2xlarge --id auto --vcpus 8 --ram 8192 --ephemeral 5 --public
+openstack flavor create m4.4xlarge --id auto --vcpus 16 --ram 16384 --ephemeral 5 --public
+openstack flavor create m4.large --id auto --vcpus 2 --ram 2048 --ephemeral 5 --public
+openstack flavor create m4.xlarge --id auto --vcpus 4 --ram 4096 --ephemeral 5 --public
+openstack flavor create p2.16xlarge --id auto --vcpus 64 --ram 65536 --ephemeral 5 --public
+openstack flavor create p2.8xlarge --id auto --vcpus 32 --ram 32768 --ephemeral 5 --public
+openstack flavor create p2.xlarge --id auto --vcpus 4 --ram 4096 --ephemeral 5 --public
+openstack flavor create r3.2xlarge --id auto --vcpus 8 --ram 8192 --ephemeral 5 --public
+openstack flavor create r3.4xlarge --id auto --vcpus 16 --ram 16384 --ephemeral 5 --public
+openstack flavor create r3.8xlarge --id auto --vcpus 32 --ram 32768 --ephemeral 5 --public
+openstack flavor create r3.large --id auto --vcpus 2 --ram 2048 --ephemeral 5 --public
+openstack flavor create r3.xlarge --id auto --vcpus 4 --ram 4096 --ephemeral 5 --public
+openstack flavor create r4.16xlarge --id auto --vcpus 64 --ram 65536 --ephemeral 5 --public
+openstack flavor create r4.2xlarge --id auto --vcpus 8 --ram 8192 --ephemeral 5 --public
+openstack flavor create r4.4xlarge --id auto --vcpus 16 --ram 16384 --ephemeral 5 --public
+openstack flavor create r4.8xlarge --id auto --vcpus 32 --ram 32768 --ephemeral 5 --public
+openstack flavor create r4.large --id auto --vcpus 2 --ram 2048 --ephemeral 5 --public
+openstack flavor create r4.xlarge --id auto --vcpus 4 --ram 4096 --ephemeral 5 --public
+openstack flavor create t1.micro --id auto --vcpus 1 --ram 1024 --ephemeral 5 --public
+openstack flavor create t2.2xlarge --id auto --vcpus 8 --ram 8192 --ephemeral 5 --public
+openstack flavor create t2.large --id auto --vcpus 2 --ram 2048 --ephemeral 5 --public
+openstack flavor create t2.medium --id auto --vcpus 2 --ram 2048 --ephemeral 5 --public
+openstack flavor create t2.micro --id auto --vcpus 1 --ram 1024 --ephemeral 5 --public
+openstack flavor create t2.nano --id auto --vcpus 1 --ram 1024 --ephemeral 5 --public
+openstack flavor create t2.small --id auto --vcpus 1 --ram 1024 --ephemeral 5 --public
+openstack flavor create t2.xlarge --id auto --vcpus 4 --ram 4096 --ephemeral 5 --public
+openstack flavor create x1.16xlarge --id auto --vcpus 64 --ram 65536 --ephemeral 5 --public
+openstack flavor create x1.32xlarge --id auto --vcpus 128 --ram 131072 --ephemeral 5 --public
+````
