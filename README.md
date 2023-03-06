@@ -183,8 +183,22 @@ kolla-ansible -i /etc/kolla/multinode post-deploy
 ````bash
 sudo pip3 install python-openstackclient -c https://releases.openstack.org/constraints/upper/zed
 ````
+- Acquire admin credentials
+````bash
+. /etc/kolla/admin-openrc.sh
+````
 
 ### External Network creation
+
+- Create the Provider network
+````bash
+openstack network create --share --enable --project admin --external --provider-network-type flat --provider-physical-network physnet1 provider01
+````
+- Create the Provider subnet
+````bash
+openstack ???
+````
+
 ### Security Groups creation
 ### SSH Keypair creation
 ### Images creation
@@ -195,6 +209,5 @@ wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.i
 ````
 - Upload the image to Glance
 ````bash
-. /etc/kolla/admin-openrc.sh
 openstack image create --disk-format qcow2 --container-format bare   --public --file jammy-server-cloudimg-amd64.img ubuntu-server-22.04
 ````
