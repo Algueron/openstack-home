@@ -259,8 +259,9 @@ openstack flavor create t2.large --vcpus 2 --ram 8192 --disk 40 --public
 openstack flavor create t2.xlarge --vcpus 4 --ram 16384 --disk 80 --public
 openstack flavor create t2.2xlarge --vcpus 8 --ram 32768 --disk 120 --public
 ````
+## Octavia bootstraping
 
-### Octavia Amphora  image creation
+### Amphora image creation
 
 - On deployment node, install system dependencies
 ````bash
@@ -286,3 +287,7 @@ octavia/diskimage-create/diskimage-create.sh
 ````bash
 openstack image create amphora-x64-haproxy.qcow2 --container-format bare --disk-format qcow2 --private --tag amphora --file amphora-x64-haproxy.qcow2 --property hw_architecture='x86_64' --property hw_rng_model=virtio
 ````
+
+### Network configuration
+
+TODO
