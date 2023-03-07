@@ -259,3 +259,30 @@ openstack flavor create t2.large --vcpus 2 --ram 8192 --disk 40 --public
 openstack flavor create t2.xlarge --vcpus 4 --ram 16384 --disk 80 --public
 openstack flavor create t2.2xlarge --vcpus 8 --ram 32768 --disk 120 --public
 ````
+
+### Octavia Amphora  image creation
+
+- On deployment node, install system dependencies
+````bash
+sudo apt install -y debootstrap qemu-utils git kpartx
+````
+- Acquire the Octavia source code
+````bash
+git clone https://opendev.org/openstack/octavia -b stable/zed
+````
+- Install diskimage-builder
+````bash
+sudo pip3 install diskimage-builder
+````
+- Create the Amphora image
+````bash
+octavia/diskimage-create/diskimage-create.sh
+````
+- Source octavia user openrc
+````bash
+. /etc/kolla/octavia-openrc.sh
+````
+- Register the image in Glance
+````bash
+openstack image create amphora-x64-haproxy.qcow2 --container-format bare --disk-format qcow2 --private --tag amphora --file amphora-x64-haproxy.qcow2 --property hw_architecture='x86_64' --property hw_rng_model=virtio
+````
