@@ -190,6 +190,10 @@ kolla-ansible -i /etc/kolla/multinode post-deploy
 ````bash
 sudo pip3 install python-openstackclient -c https://releases.openstack.org/constraints/upper/zed
 ````
+- Install Octavia extension
+````bash
+sudo pip3 install python-octaviaclient -c https://releases.openstack.org/constraints/upper/zed
+````
 - Acquire admin credentials
 ````bash
 . /etc/kolla/admin-openrc.sh
