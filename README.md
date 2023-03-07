@@ -154,18 +154,18 @@ kolla-ansible -i /etc/kolla/multinode bootstrap-servers
 ````
 Note: It may fail due to "docker.service: Start request repeated too quickly.". Just re-run the command which should now be fine.
 
-### Pre-checks
-
-- Do pre-deployment checks for hosts
-````bash
-kolla-ansible -i /etc/kolla/multinode prechecks
-````
-
 ### Certificates Generation
 
 - Generate certificates for Octavia
 ````bash
 kolla-ansible octavia-certificates
+````
+
+### Pre-checks
+
+- Do pre-deployment checks for hosts
+````bash
+kolla-ansible -i /etc/kolla/multinode prechecks
 ````
 
 ### Deployment
