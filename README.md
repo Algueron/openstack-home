@@ -290,4 +290,22 @@ openstack image create amphora-x64-haproxy.qcow2 --container-format bare --disk-
 
 ### Network configuration
 
-TODO
+- Retrieve the ID of Octavia subnet
+````bash
+SUBNET_ID=$(openstack subnet show lb-mgmt-subnet -f value -c id)
+````
+- Create a port for Octavia Health Manager
+````bash
+MGMT_PORT_ID=$(openstack port create --security-group lb-health-mgr-sec-grp --device-owner Octavia:health-mgr --host=compute01 -c id -f value --network lb-mgmt-net --fixed-ip subnet=$SUBNET_ID,ip-address=10.1.0.2 octavia-health-manager-listen-port)
+````
+- Get the MAC Address of Octavia Health Manager port
+````bash
+MGMT_PORT_MAC=$(openstack port show -c mac_address -f value $MGMT_PORT_ID)
+````
+- On compute01 node, create the bridge for the Octavia worker
+````bash
+INTERFACE=o-hm0
+MGMT_PORT_ID=xxx
+MGMT_PORT_MAC=yyyy
+sudo ovs-vsctl -- --may-exist add-port ${OVS_BRIDGE:-br-int} $INTERFACE -- set Interface $INTERFACE type=internal -- set Interface $INTERFACE external-ids:iface-status=active -- set Interface $INTERFACE external-ids:attached-mac=$MGMT_PORT_MAC -- set Interface $INTERFACE external-ids:iface-id=$MGMT_PORT_ID -- set Interface $INTERFACE external-ids:skip_cleanup=true
+````
