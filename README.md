@@ -203,11 +203,11 @@ sudo pip3 install python-octaviaclient -c https://releases.openstack.org/constra
 
 - Create the Provider network
 ````bash
-openstack network create --share --enable --project admin --external --provider-network-type flat --provider-physical-network physnet1 provider01
+openstack network create --share --enable --project admin --external --provider-network-type flat --provider-physical-network physnet1 public-net
 ````
 - Create the Provider subnet
 ````bash
-openstack subnet create --project admin --subnet-range "172.16.0.0/12" --dhcp --gateway "172.16.0.1" --ip-version 4 --network provider01 provider-subnet
+openstack subnet create --project admin --subnet-range "172.16.0.0/12" --dhcp --gateway "172.16.0.1" --ip-version 4 --network public-net public-subnet
 ````
 
 ### Security Groups creation
