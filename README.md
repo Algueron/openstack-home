@@ -224,7 +224,7 @@ openstack security group rule create --remote-ip "0.0.0.0/0" --protocol icmp --i
 ````bash
 openstack security group create --project admin --stateful allow-ssh
 ````
-- Add the rule to allow ICMP
+- Add the rule to allow SSH
 ````bash
 openstack security group rule create --remote-ip "0.0.0.0/0" --protocol tcp --dst-port 22 --ingress --project admin allow-ssh
 ````
