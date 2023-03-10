@@ -259,7 +259,7 @@ openstack flavor create t2.large --vcpus 2 --ram 8192 --disk 40 --public
 openstack flavor create t2.xlarge --vcpus 4 --ram 16384 --disk 80 --public
 openstack flavor create t2.2xlarge --vcpus 8 --ram 32768 --disk 120 --public
 ````
-## Octavia bootstraping
+## Octavia (LBaaS) bootstraping
 
 ### Amphora image creation
 
@@ -290,7 +290,21 @@ openstack image create amphora-x64-haproxy.qcow2 --container-format bare --disk-
 
 ### Network configuration
 
-- Retrieve the ID of Octavia subnet
+Kolla Ansible generates a Octavia tenant network as a VXLAN Neutron network. However, this network will manifest itself as a local VLAN tag on the integration bridge of each node on which a port is connected to this network. For Octavia to work properly, the Controller itself needs physical access to the Octavia network, which is why we need to retrieve the VLAN tag for the Octavia network, and then plug the Health Manager onto this VLAN.
+
+- On deployment node, copy the Octavia credentials to the network controller
+````bash
+scp /etc/kolla/octavia-openrc.sh $USER@compute01:
+````
+- On Controller node, install Openstack client
+````bash
+sudo pip3 install python-openstackclient -c https://releases.openstack.org/constraints/upper/zed
+````
+- Acquire Octavia service credentials
+````bash
+source octavia-openrc.sh
+````
+- Retrieve the Load Balancer subnet GUID
 ````bash
 SUBNET_ID=$(openstack subnet show lb-mgmt-subnet -f value -c id)
 ````
@@ -302,10 +316,15 @@ MGMT_PORT_ID=$(openstack port create --security-group lb-health-mgr-sec-grp --de
 ````bash
 MGMT_PORT_MAC=$(openstack port show -c mac_address -f value $MGMT_PORT_ID)
 ````
-- On compute01 node, create the bridge for the Octavia worker
+- Retrieve the GUID of the DCHP port
 ````bash
-INTERFACE=o-hm0
-MGMT_PORT_ID=xxx
-MGMT_PORT_MAC=yyyy
-sudo docker exec -it openvswitch_vswitchd ovs-vsctl -- --may-exist add-port ${OVS_BRIDGE:-br-int} $INTERFACE -- set Interface $INTERFACE type=internal -- set Interface $INTERFACE external-ids:iface-status=active -- set Interface $INTERFACE external-ids:attached-mac=$MGMT_PORT_MAC -- set Interface $INTERFACE external-ids:iface-id=$MGMT_PORT_ID -- set Interface $INTERFACE external-ids:skip_cleanup=true
+DHCP_PORT_ID=$(openstack port list --network lb-mgmt-net --device-owner network:dhcp -c id -f value)
+````
+- Generate the corresponding Open vSwitch Port
+````bash
+OVS_DHCP_PORT_ID=tap${DHCP_PORT_ID:0:11}
+````
+- Get the record of this port from OVS DB
+````bash
+OVS_RECORD=$(sudo docker exec -it openvswitch_vswitchd ovsdb-client dump  unix:/var/run/openvswitch/db.sock Open_vSwitch Port name tag | grep $OVS_DHCP_PORT_ID)
 ````
