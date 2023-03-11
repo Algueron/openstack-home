@@ -354,3 +354,10 @@ network:
 ````bash
 sudo netplan apply
 ````
+
+### Health Manager Security Rules
+
+For some unknown reason, the lb-health-mgr-sec-grp does not have a rule allowing UDP 5555, so let's add it
+````bash
+openstack security group rule create --remote-ip "0.0.0.0/0" --protocol udp --dst-port 5555 --ingress --project service lb-health-mgr-sec-grp
+````
