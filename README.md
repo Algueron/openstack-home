@@ -328,3 +328,11 @@ OVS_DHCP_PORT_ID=tap${DHCP_PORT_ID:0:11}
 ````bash
 OVS_TAG=$(sudo docker exec openvswitch_vswitchd ovsdb-client dump  unix:/var/run/openvswitch/db.sock Open_vSwitch Port name tag | tr -d '\r' | grep $OVS_DHCP_PORT_ID | awk '{print $2'})
 ````
+- Generate the name of the OVS link for the Health Manager
+````bash
+OVS_MGMT_PORT_ID=lb-${MGMT_PORT_ID:0:11}
+````
+- Create an OVS link for the Health Manager on br-int
+````bash
+sudo docker exec -it openvswitch_vswitchd ovs-vsctl add-port br-int $OVS_MGMT_PORT_ID -- set interface $OVS_MGMT_PORT_ID type=internal -- set port $OVS_MGMT_PORT_ID tag=$OVS_TAG -- set port $OVS_MGMT_PORT_ID other-config:hwaddr=$MGMT_PORT_MAC
+````
