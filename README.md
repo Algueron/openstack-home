@@ -324,7 +324,7 @@ DHCP_PORT_ID=$(openstack port list --network lb-mgmt-net --device-owner network:
 ````bash
 OVS_DHCP_PORT_ID=tap${DHCP_PORT_ID:0:11}
 ````
-- Get the record of this port from OVS DB
+- Get the VLAN tag of this port from OVS DB
 ````bash
-OVS_RECORD=$(sudo docker exec -it openvswitch_vswitchd ovsdb-client dump  unix:/var/run/openvswitch/db.sock Open_vSwitch Port name tag | grep $OVS_DHCP_PORT_ID)
+OVS_TAG=$(sudo docker exec openvswitch_vswitchd ovsdb-client dump  unix:/var/run/openvswitch/db.sock Open_vSwitch Port name tag | tr -d '\r' | grep $OVS_DHCP_PORT_ID | awk '{print $2'})
 ````
