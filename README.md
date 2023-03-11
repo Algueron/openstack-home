@@ -336,3 +336,21 @@ OVS_MGMT_PORT_ID=lb-${MGMT_PORT_ID:0:11}
 ````bash
 sudo docker exec -it openvswitch_vswitchd ovs-vsctl add-port br-int $OVS_MGMT_PORT_ID -- set interface $OVS_MGMT_PORT_ID type=internal -- set port $OVS_MGMT_PORT_ID tag=$OVS_TAG -- set port $OVS_MGMT_PORT_ID other-config:hwaddr=$MGMT_PORT_MAC
 ````
+- Edit the netplan configuration to add the link
+````YAML
+# This is the network config written by 'subiquity'
+network:
+  ethernets:
+    enp4s0:
+[...]
+    lb-d43756e0-f2:
+      addresses:
+      - 10.1.0.2/24
+      routes:
+      - to: 10.1.0.1/24
+        via: 10.1.0.1
+````
+- Apply the changes
+````bash
+sudo netplan apply
+````
