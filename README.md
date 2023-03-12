@@ -354,7 +354,7 @@ network:
 ````bash
 sudo netplan apply
 ````
-- On deployment node, change the Health Manager configuration usinf [this file](etc/kolla/config/octavia.conf)
+- On deployment node, change the Health Manager configuration using [this file](etc/kolla/config/octavia.conf)
 ````bash
 wget -P /etc/kolla/config/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/config/octavia.conf
 ````
@@ -368,4 +368,48 @@ kolla-ansible -i /etc/kolla/multinode reconfigure -t octavia
 For some unknown reason, the lb-health-mgr-sec-grp does not have a rule allowing UDP 5555, so let's add it
 ````bash
 openstack security group rule create --remote-ip "0.0.0.0/0" --protocol udp --dst-port 5555 --ingress --project service lb-health-mgr-sec-grp
+````
+
+## Skyline Setup
+
+### User setup creation
+
+- On compute01, create a service account
+````bash
+openstack user create --project service --password "<some_password>" skyline
+````
+- Create the configuration directory
+````bash
+sudo mkdir /etc/skyline
+sudo chown $USER: /etc/skyline
+````
+- Download [Skyline configuration file](etc/kolla/passwords.yml)
+````bash
+wget -P /etc/skyline/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/skyline/skyline.yaml
+````
+- Edit the configuration file to set system_user_password
+- Clean the tmp directory
+````bash
+rm -rf /tmp/skyline
+mkdir /tmp/skyline
+````
+- Create the log directory
+````bash
+sudo mkdir /var/log/skyline
+````
+- Bootstrap the Skyline service
+````bash
+sudo docker run -d --name skyline_bootstrap -e KOLLA_BOOTSTRAP="" -v /var/log/skyline:/var/log/skyline -v /etc/skyline/skyline.yaml:/etc/skyline/skyline.yaml -v /tmp/skyline:/tmp --net=host 99cloud/skyline:latest
+````
+- Check the container logs, bootstrap must end normally via `exit 0`
+````bash
+sudo docker logs skyline_bootstrap
+````
+- Delete the bootstraping container after bootstrap is complete
+````bash
+sudo docker rm -f skyline_bootstrap
+````
+- Deploy Skyline service
+````bash
+sudo docker run -d --name skyline --restart=always -v /var/log/skyline:/var/log/skyline -v /etc/skyline/skyline.yaml:/etc/skyline/skyline.yaml -v /tmp/skyline:/tmp --net=host 99cloud/skyline:latest
 ````
