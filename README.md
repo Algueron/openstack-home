@@ -362,6 +362,10 @@ wget -P /etc/kolla/config/ https://raw.githubusercontent.com/Algueron/openstack-
 ````bash
 kolla-ansible -i /etc/kolla/multinode reconfigure -t octavia
 ````
+- Restart Neutron Open vSwitch Agent
+````bash
+sudo docker restart neutron_openvswitch_agent
+````
 
 ### Health Manager Security Rules
 
