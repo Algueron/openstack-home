@@ -354,6 +354,14 @@ network:
 ````bash
 sudo netplan apply
 ````
+- On deployment node, change the Health Manager configuration usinf [this file](etc/kolla/config/octavia.conf)
+````bash
+wget -P /etc/kolla/config/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/config/octavia.conf
+````
+- Apply Octavia changes
+````bash
+kolla-ansible -i /etc/kolla/multinode reconfigure -t octavia
+````
 
 ### Health Manager Security Rules
 
