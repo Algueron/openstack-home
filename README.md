@@ -378,10 +378,24 @@ openstack security group rule create --remote-ip "0.0.0.0/0" --protocol udp --ds
 
 ### User setup creation
 
-- On compute01, create a service account
+- On deployment node, copy the Octavia credentials to the network controller
+````bash
+scp /etc/kolla/admin-openrc.sh $USER@compute01:
+````
+- On compute01, log as admin account
+````bash
+source admin-openrc.sh
+````
+- Create a service account
 ````bash
 openstack user create --project service --password "<some_password>" skyline
 ````
+- Assign an admin role on project service
+````bash
+openstack role add --user skyline --project service admin
+````
+
+### Skyline bootstraping
 - Create the configuration directory
 ````bash
 sudo mkdir /etc/skyline
@@ -394,12 +408,12 @@ wget -P /etc/skyline/ https://raw.githubusercontent.com/Algueron/openstack-home/
 - Edit the configuration file to set system_user_password
 - Clean the tmp directory
 ````bash
-rm -rf /tmp/skyline
+sudo rm -rf /tmp/skyline
 mkdir /tmp/skyline
 ````
 - Create the log directory
 ````bash
-sudo mkdir /var/log/skyline
+sudo mkdir -p /var/log/skyline
 ````
 - Bootstrap the Skyline service
 ````bash
@@ -413,6 +427,9 @@ sudo docker logs skyline_bootstrap
 ````bash
 sudo docker rm -f skyline_bootstrap
 ````
+
+### Skyline Deployment
+
 - Deploy Skyline service
 ````bash
 sudo docker run -d --name skyline --restart=always -v /var/log/skyline:/var/log/skyline -v /etc/skyline/skyline.yaml:/etc/skyline/skyline.yaml -v /tmp/skyline:/tmp --net=host 99cloud/skyline:latest
