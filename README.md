@@ -366,6 +366,11 @@ kolla-ansible -i /etc/kolla/multinode reconfigure -t octavia
 ````bash
 sudo docker restart neutron_openvswitch_agent
 ````
+- Restart Octavia Health Manager
+````bash
+sudo docker restart octavia_health_manager
+````
+
 
 ### Health Manager Security Rules
 
