@@ -406,7 +406,7 @@ openstack role add --user skyline --project service admin
 sudo mkdir /etc/skyline
 sudo chown $USER: /etc/skyline
 ````
-- Download [Skyline configuration file](etc/kolla/passwords.yml)
+- Download [Skyline configuration file](etc/skyline/skyline.yaml)
 ````bash
 wget -P /etc/skyline/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/skyline/skyline.yaml
 ````
