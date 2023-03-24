@@ -3,11 +3,13 @@
 [control]
 # These hostname must be resolvable from your deployment host
 compute01
+compute02
 
 # The network nodes are where your l3-agent and loadbalancers will run
 # This can be the same as a host in the control group
 [network]
 compute01
+compute02
 
 [compute]
 compute01
@@ -15,6 +17,7 @@ compute02
 
 [monitoring]
 compute01
+compute02
 
 [storage]
 compute01
