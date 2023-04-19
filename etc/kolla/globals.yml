@@ -592,10 +592,10 @@ enable_octavia: "yes"
 # Neutron - networking options
 ##############################
 # Enable distributed floating ip for OVN deployments
-#neutron_ovn_distributed_fip: "no"
+neutron_ovn_distributed_fip: "yes"
 
 # Enable DHCP agent(s) to use with OVN
-#neutron_ovn_dhcp_agent: "no"
+neutron_ovn_dhcp_agent: "yes"
 
 #############################
 # Horizon - Dashboard Options
