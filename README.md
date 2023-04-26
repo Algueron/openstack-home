@@ -7,11 +7,7 @@ This private cloud consists of :
 - 1 physical host (compute02) with 32 cores and 128GB RAM
 - 1 virtual machine (deployment) with 1 core and 2GB RAM
 
-We also have 2 networks :
-- Management network : 192.168.0.0/24 with DHCP
-- Provider network : 172.16.0.0/12 without DHCP
-
-Physical hosts must be connected to both networks, deployment node only needs Management network.
+We also have a common network 192.168.0.0/24 with DHCP
 
 ## Preparation
 
@@ -23,6 +19,21 @@ Physical hosts must be connected to both networks, deployment node only needs Ma
 echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$USER
 ````
 - Edit hosts file on all machines to be able to contact physical hosts using hostname (see [Hosts file](etc/hosts))
+
+### Setup Networking
+
+- On each physical host, remove the existing netplan configuration
+````bash
+sudo rm /etc/netplan/00-installer-config.yaml
+````
+- Download the appropriate netplan configuration file
+````bash
+sudo wget -P /etc/netplan/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/netplan/10-$HOSTNAME-network.yaml
+````
+- Apply the configuration
+````bash
+sudo netplan apply
+````
 
 ### Setup Promiscuous mode on Provider Network
 
