@@ -1,13 +1,22 @@
 network:
   ethernets:
-    enp5s0:
+    eth0:
+      match:
+        macaddress: 50:3e:aa:0e:54:6f
+      set-name: eth0
       addresses:
       - 192.168.0.12/24
       nameservers:
         addresses:
         - 192.168.1.15
         - 1.1.1.1
-    enp9s0:
+      routes:
+      - to: default
+        via: 192.168.0.1
+    eth1:
+      match:
+        macaddress: 58:11:22:d8:9c:2f
+      set-name: eth1
       dhcp4: false
       dhcp6: false
       optional: true
