@@ -13,6 +13,8 @@ network:
       dhcp4: false
       dhcp6: false
       optional: true
+    vethb1: {}
+    vethb2: {}
   bridges:
     br0:
       addresses:
@@ -26,4 +28,5 @@ network:
         via: 192.168.0.1
       interfaces:
       - eth0
+      - vethb1
   version: 2
