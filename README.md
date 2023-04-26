@@ -46,27 +46,6 @@ sudo wget -P /etc/netplan/ https://raw.githubusercontent.com/Algueron/openstack-
 sudo netplan apply
 ````
 
-### Setup Promiscuous mode on Provider Network
-
-- On each physical host, get the list of network interfaces
-````bash
-ip addr
-````
-- Create a service bridge-promisc to enable promiscuous mode (replace enp4s0 and enp7s0 with appropriate interfaces)
-[bridge-promisc.service](etc/systemd/system/bridge-promisc.service)
-- Reload the services definitions
-````bash
-sudo systemctl daemon-reload
-````
-- Starts the service
-````bash
-sudo systemctl start bridge-promisc
-````
-- Activate the service at reboot
-````bash
-sudo systemctl enable bridge-promisc
-````
-
 ### SSH configuration
 - On deployment, upload your custom SSH key pair and ensures the proper access rights are set
 ````bash
