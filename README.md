@@ -20,6 +20,17 @@ echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$USER
 ````
 - Edit hosts file on all machines to be able to contact physical hosts using hostname (see [Hosts file](etc/hosts))
 
+### Create veth interfaces
+
+- On each physical host, download the veth configuration file
+````bash
+sudo wget -P /etc/systemd/network/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/systemd/network/25-veth-b1b2.netdev
+````
+- Restart network service
+````bash
+sudo systemctl restart systemd-networkd
+````
+
 ### Setup Networking
 
 - On each physical host, remove the existing netplan configuration
