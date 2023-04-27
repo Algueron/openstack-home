@@ -349,8 +349,8 @@ sudo netplan apply
 ````
 - On deployment node, change the Health Manager configuration
 ````bash
-wget -P /etc/kolla/config/compute01/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/config/compute01/octavia.conf
-wget -P /etc/kolla/config/compute02/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/config/compute02/octavia.conf
+wget -P /etc/kolla/config/octavia/compute01/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/config/compute01/octavia.conf
+wget -P /etc/kolla/config/octavia/compute02/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/config/compute02/octavia.conf
 ````
 - Apply Octavia changes
 ````bash
