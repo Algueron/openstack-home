@@ -7,11 +7,7 @@ This private cloud consists of :
 - 1 physical host (compute02) with 32 cores and 128GB RAM
 - 1 virtual machine (deployment) with 1 core and 2GB RAM
 
-We also have 2 networks :
-- Management network : 192.168.0.0/24 with DHCP
-- Provider network : 172.16.0.0/12 without DHCP
-
-Physical hosts must be connected to both networks, deployment node only needs Management network.
+We also have a common network 192.168.0.0/24 with DHCP
 
 ## Preparation
 
@@ -24,25 +20,30 @@ echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$USER
 ````
 - Edit hosts file on all machines to be able to contact physical hosts using hostname (see [Hosts file](etc/hosts))
 
-### Setup Promiscuous mode on Provider Network
+### Create veth interfaces
 
-- On each physical host, get the list of network interfaces
+- On each physical host, download the veth configuration file
 ````bash
-ip addr
+sudo wget -P /etc/systemd/network/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/systemd/network/25-veth-b1b2.netdev
 ````
-- Create a service bridge-promisc to enable promiscuous mode (replace enp4s0 and enp7s0 with appropriate interfaces)
-[bridge-promisc.service](etc/systemd/system/bridge-promisc.service)
-- Reload the services definitions
+- Restart network service
 ````bash
-sudo systemctl daemon-reload
+sudo systemctl restart systemd-networkd
 ````
-- Starts the service
+
+### Setup Networking
+
+- On each physical host, remove the existing netplan configuration
 ````bash
-sudo systemctl start bridge-promisc
+sudo rm /etc/netplan/00-installer-config.yaml
 ````
-- Activate the service at reboot
+- Download the appropriate netplan configuration file
 ````bash
-sudo systemctl enable bridge-promisc
+sudo wget -P /etc/netplan/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/netplan/10-$HOSTNAME-network.yaml
+````
+- Apply the configuration
+````bash
+sudo netplan apply
 ````
 
 ### SSH configuration

@@ -1,0 +1,5 @@
+[NetDev]
+Name=vethb1
+Kind=veth
+[Peer]
+Name=vethb2
