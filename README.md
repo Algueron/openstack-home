@@ -136,14 +136,6 @@ wget -P /etc/kolla/ https://raw.githubusercontent.com/Algueron/openstack-home/ma
 ````bash
 wget -P /etc/kolla/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/multinode
 ````
-- Download [compute01 configuration file](etc/kolla/host_vars/compute01)
-````bash
-wget -P /etc/kolla/host_vars/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/host_vars/compute01
-````
-- Download [compute02 configuration file](etc/kolla/host_vars/compute02)
-````bash
-wget -P /etc/kolla/host_vars/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/host_vars/compute02
-````
 
 ## Openstack Deployment
 
@@ -208,7 +200,7 @@ openstack network create --share --enable --project admin --external --provider-
 ````
 - Create the Provider subnet
 ````bash
-openstack subnet create --project admin --subnet-range "172.16.0.0/12" --dhcp --gateway "172.16.0.1" --ip-version 4 --network public-net public-subnet
+openstack subnet create --project admin --subnet-range "192.168.0.0/24" --dhcp --gateway "192.168.0.1" --ip-version 4 --allocation-pool "start=192.168.0.101,end=192.168.0.254" --dns-nameserver "192.168.1.15" --network public-net public-subnet
 ````
 
 ### Security Groups creation

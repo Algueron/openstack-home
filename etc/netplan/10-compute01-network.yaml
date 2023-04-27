@@ -17,6 +17,7 @@ network:
     vethb2: {}
   bridges:
     br0:
+
       addresses:
       - 192.168.0.11/24
       nameservers:
