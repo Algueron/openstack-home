@@ -244,13 +244,13 @@ openstack image create --disk-format qcow2 --container-format bare   --public --
 
 - Create the default flavors
 ````bash
-openstack flavor create t2.nano --vcpus 1 --ram 512 --disk 5 --public
-openstack flavor create t2.micro --vcpus 1 --ram 1024 --disk 5 --public
-openstack flavor create t2.small --vcpus 1 --ram 2048 --disk 10 --public
+openstack flavor create t2.nano --vcpus 1 --ram 512 --disk 20 --public
+openstack flavor create t2.micro --vcpus 1 --ram 1024 --disk 20 --public
+openstack flavor create t2.small --vcpus 1 --ram 2048 --disk 20 --public
 openstack flavor create t2.medium --vcpus 2 --ram 4096 --disk 20 --public
-openstack flavor create t2.large --vcpus 2 --ram 8192 --disk 40 --public
-openstack flavor create t2.xlarge --vcpus 4 --ram 16384 --disk 80 --public
-openstack flavor create t2.2xlarge --vcpus 8 --ram 32768 --disk 120 --public
+openstack flavor create t2.large --vcpus 2 --ram 8192 --disk 20 --public
+openstack flavor create t2.xlarge --vcpus 4 --ram 16384 --disk 20 --public
+openstack flavor create t2.2xlarge --vcpus 8 --ram 32768 --disk 20 --public
 ````
 ## Octavia (LBaaS) bootstraping
 
