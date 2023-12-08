@@ -433,3 +433,18 @@ sudo docker rm -f skyline_bootstrap
 ````bash
 sudo docker run -d --name skyline --restart=always -v /var/log/skyline:/var/log/skyline -v /etc/skyline/skyline.yaml:/etc/skyline/skyline.yaml -v /tmp/skyline:/tmp --net=host 99cloud/skyline:latest
 ````
+## On reboot
+
+- If a machine reboots, use the following screen to make Octavia work
+````bash
+source octavia-openrc.sh
+SUBNET_ID=$(openstack subnet show lb-mgmt-subnet -f value -c id)
+MGMT_PORT_ID=$(openstack port list --device-owner Octavia:health-mgr --host=$HOSTNAME -c id -f value --network lb-mgmt-net)
+MGMT_PORT_MAC=$(openstack port show -c mac_address -f value $MGMT_PORT_ID)
+OVS_MGMT_PORT_ID=lb-${MGMT_PORT_ID:0:11}
+OVS_TAG=$(sudo docker exec openvswitch_vswitchd ovsdb-client dump  unix:/var/run/openvswitch/db.sock Open_vSwitch Port name tag | tr -d '\r' | grep $OVS_MGMT_PORT_ID | awk '{print $2'})
+sudo docker exec -it openvswitch_vswitchd ovs-vsctl del-port br-int $OVS_MGMT_PORT_ID
+sudo docker exec -it openvswitch_vswitchd ovs-vsctl add-port br-int $OVS_MGMT_PORT_ID -- set interface $OVS_MGMT_PORT_ID type=internal -- set port $OVS_MGMT_PORT_ID tag=$OVS_TAG -- set port $OVS_MGMT_PORT_ID other-config:hwaddr=$MGMT_PORT_MAC
+sudo docker restart neutron_openvswitch_agent
+sudo docker restart octavia_health_manager
+````
