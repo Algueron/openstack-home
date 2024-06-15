@@ -435,7 +435,7 @@ sudo docker run -d --name skyline --restart=always -v /var/log/skyline:/var/log/
 ````
 ## On reboot
 
-- If a machine reboots, use the following screen to make Octavia work
+- If a machine reboots, use the following script to make Octavia work
 ````bash
 source octavia-openrc.sh
 SUBNET_ID=$(openstack subnet show lb-mgmt-subnet -f value -c id)
