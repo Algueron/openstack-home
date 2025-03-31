@@ -13,7 +13,7 @@ We also have a common network 192.168.0.0/24 with DHCP
 
 ### Prerequisites for all machines
 
-- Setup Ubuntu Jammy 22.04 on all hosts
+- Setup Ubuntu Noble 24.04 on all hosts
 - Create a user with passwordless sudo on all machines
 ````bash
 echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$USER
@@ -70,27 +70,33 @@ sudo apt install -y docker.io
 ````bash
 sudo apt install -y git python3-dev libffi-dev gcc libssl-dev
 ````
-- Install PIP
+- Install venv
 ````bash
-sudo apt install -y python3-pip
+sudo apt install -y python3-venv
+````
+- Create a virtual env
+````bash
+mkdir ~/kolla
+python3 -m venv ~/kolla/venv
+source ~/kolla/venv/bin/activate
 ````
 - Ensure you're using the latest version of PIP
 ````bash
-sudo pip install -U pip
+pip install -U pip
 ````
 
 ### Setup Ansible
 
-- Install Ansible. Kolla Ansible requires at least Ansible 4 and supports up to 5.
+- Install Ansible. Kolla Ansible requires at least Ansible 2.16 and supports up to 2.17.
 ````bash
-sudo pip3 install 'ansible>=4,<6'
+pip install 'ansible-core>=2.16,<2.17.99'
 ````
 
 ### Setup Kolla Ansible
 
 - Install Kolla Ansible. We're using the Zed release.
 ````bash
-sudo pip3 install git+https://opendev.org/openstack/kolla-ansible@stable/zed
+pip install git+https://opendev.org/openstack/kolla-ansible@stable/2024.2
 ````
 - Create Kolla Ansible configuration directory
 ````bash
@@ -109,11 +115,7 @@ kolla-ansible install-deps
 
 - Download [passwords configuration file](etc/kolla/passwords.yml)
 ````bash
-wget -P /etc/kolla/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/passwords.yml
-````
-- Generate random passwords
-````bash
-kolla-genpwd
+wget -P /etc/kolla/ <URL REDACTED>
 ````
 
 ### Ansible configuration
