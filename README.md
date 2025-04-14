@@ -94,7 +94,7 @@ pip install 'ansible-core>=2.16,<2.17.99'
 
 ### Setup Kolla Ansible
 
-- Install Kolla Ansible. We're using the Zed release.
+- Install Kolla Ansible. We're using the 2024.2 release.
 ````bash
 pip install git+https://opendev.org/openstack/kolla-ansible@stable/2024.2
 ````
