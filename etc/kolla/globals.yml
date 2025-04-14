@@ -563,6 +563,8 @@ cinder_volume_group: "cinder-volumes"
 # Valid options are [ '', redis, etcd ]
 #cinder_coordination_backend: "{{ 'redis' if enable_redis|bool else 'etcd' if enable_etcd|bool else '' }}"
 
+cinder_cluster_name: "cinder_cluster"
+
 # Valid options are [ nfs, swift, ceph, s3 ]
 #cinder_backup_driver: "ceph"
 #cinder_backup_share: ""
