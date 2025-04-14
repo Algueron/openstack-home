@@ -183,11 +183,11 @@ kolla-ansible post-deploy -i /etc/kolla/multinode
 
 - On deployment node, install Openstack CLI :
 ````bash
-sudo pip3 install python-openstackclient -c https://releases.openstack.org/constraints/upper/zed
+pip install python-openstackclient
 ````
 - Install Octavia extension
 ````bash
-sudo pip3 install python-octaviaclient -c https://releases.openstack.org/constraints/upper/zed
+pip install python-octaviaclient
 ````
 - Acquire admin credentials
 ````bash
@@ -375,66 +375,6 @@ For some unknown reason, the lb-health-mgr-sec-grp does not have a rule allowing
 openstack security group rule create --remote-ip "0.0.0.0/0" --protocol udp --dst-port 5555 --ingress --project service lb-health-mgr-sec-grp
 ````
 
-## Skyline Setup
-
-### User setup creation
-
-- On deployment node, copy the Octavia credentials to the network controller
-````bash
-scp /etc/kolla/admin-openrc.sh $USER@compute01:
-````
-- On compute01, log as admin account
-````bash
-source admin-openrc.sh
-````
-- Create a service account
-````bash
-openstack user create --project service --password "<some_password>" skyline
-````
-- Assign an admin role on project service
-````bash
-openstack role add --user skyline --project service admin
-````
-
-### Skyline bootstraping
-- Create the configuration directory
-````bash
-sudo mkdir /etc/skyline
-sudo chown $USER: /etc/skyline
-````
-- Download [Skyline configuration file](etc/skyline/skyline.yaml)
-````bash
-wget -P /etc/skyline/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/skyline/skyline.yaml
-````
-- Edit the configuration file to set system_user_password
-- Clean the tmp directory
-````bash
-sudo rm -rf /tmp/skyline
-mkdir /tmp/skyline
-````
-- Create the log directory
-````bash
-sudo mkdir -p /var/log/skyline
-````
-- Bootstrap the Skyline service
-````bash
-sudo docker run -d --name skyline_bootstrap -e KOLLA_BOOTSTRAP="" -v /var/log/skyline:/var/log/skyline -v /etc/skyline/skyline.yaml:/etc/skyline/skyline.yaml -v /tmp/skyline:/tmp --net=host 99cloud/skyline:latest
-````
-- Check the container logs, bootstrap must end normally via `exit 0`
-````bash
-sudo docker logs skyline_bootstrap
-````
-- Delete the bootstraping container after bootstrap is complete
-````bash
-sudo docker rm -f skyline_bootstrap
-````
-
-### Skyline Deployment
-
-- Deploy Skyline service
-````bash
-sudo docker run -d --name skyline --restart=always -v /var/log/skyline:/var/log/skyline -v /etc/skyline/skyline.yaml:/etc/skyline/skyline.yaml -v /tmp/skyline:/tmp --net=host 99cloud/skyline:latest
-````
 ## On reboot
 
 - If a machine reboots, use the following script to make Octavia work
