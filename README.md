@@ -145,7 +145,7 @@ wget -P /etc/kolla/ https://raw.githubusercontent.com/Algueron/openstack-home/ma
 
 - Bootstrap servers with kolla deploy dependencies
 ````bash
-kolla-ansible -i /etc/kolla/multinode bootstrap-servers
+kolla-ansible bootstrap-servers -i /etc/kolla/multinode
 ````
 Note: It may fail due to "docker.service: Start request repeated too quickly.". Just re-run the command which should now be fine.
 
@@ -153,28 +153,28 @@ Note: It may fail due to "docker.service: Start request repeated too quickly.". 
 
 - Generate certificates for Octavia
 ````bash
-kolla-ansible octavia-certificates
+kolla-ansible octavia-certificates -i /etc/kolla/multinode
 ````
 
 ### Pre-checks
 
 - Do pre-deployment checks for hosts
 ````bash
-kolla-ansible -i /etc/kolla/multinode prechecks
+kolla-ansible prechecks -i /etc/kolla/multinode
 ````
 
 ### Deployment
 
 - Finally proceed to actual OpenStack deployment
 ````bash
-kolla-ansible -i /etc/kolla/multinode deploy
+kolla-ansible deploy -i /etc/kolla/multinode
 ````
 
 ### Administrator credentials
 
 - OpenStack requires a clouds.yaml file where credentials for the admin user are set. To generate this file :
 ````bash
-kolla-ansible -i /etc/kolla/multinode post-deploy
+kolla-ansible post-deploy -i /etc/kolla/multinode
 ````
 
 ## Cloud Bootstraping
