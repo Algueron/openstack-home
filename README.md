@@ -235,11 +235,11 @@ openstack keypair create --public-key .ssh/id_rsa.pub --type ssh my-key
 
 - On deployment node, download the jammy ubuntu image
 ````bash
-wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
+wget https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
 ````
 - Upload the image to Glance
 ````bash
-openstack image create --disk-format qcow2 --container-format bare   --public --file jammy-server-cloudimg-amd64.img ubuntu-server-22.04
+openstack image create --disk-format qcow2 --container-format bare   --public --file noble-server-cloudimg-amd64.img ubuntu-server-24.04
 ````
 
 ### Flavors creation
