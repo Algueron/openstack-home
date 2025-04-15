@@ -264,7 +264,7 @@ sudo apt install -y debootstrap qemu-utils git kpartx
 ````
 - Acquire the Octavia source code
 ````bash
-git clone https://opendev.org/openstack/octavia -b stable/zed
+git clone https://opendev.org/openstack/octavia -b stable/2024.2
 ````
 - Install diskimage-builder
 ````bash
