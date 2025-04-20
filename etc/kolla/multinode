@@ -19,6 +19,11 @@ compute02
 compute01
 compute02
 
+# When compute nodes and control nodes use different interfaces,
+# you need to comment out "api_interface" and other interfaces from the globals.yml
+# and specify like below:
+#compute01 neutron_external_interface=eth0 api_interface=em1 tunnel_interface=em1
+
 [storage]
 compute01
 compute02
@@ -61,9 +66,6 @@ monitoring
 [prometheus:children]
 monitoring
 
-[kafka:children]
-control
-
 [telegraf:children]
 compute
 control
@@ -85,22 +87,6 @@ control
 
 [rabbitmq:children]
 control
-
-[outward-rabbitmq:children]
-control
-
-[monasca-agent:children]
-compute
-control
-monitoring
-network
-storage
-
-[monasca:children]
-monitoring
-
-[storm:children]
-monitoring
 
 [keystone:children]
 control
@@ -125,9 +111,6 @@ control
 [cloudkitty:children]
 control
 
-[freezer:children]
-control
-
 [memcached:children]
 control
 
@@ -143,19 +126,10 @@ control
 [heat:children]
 control
 
-[murano:children]
-control
-
-[solum:children]
-control
-
 [ironic:children]
 control
 
 [magnum:children]
-control
-
-[sahara:children]
 control
 
 [mistral:children]
@@ -183,12 +157,6 @@ control
 [trove:children]
 control
 
-[senlin:children]
-control
-
-[vitrage:children]
-control
-
 [watcher:children]
 control
 
@@ -204,14 +172,11 @@ control
 [bifrost:children]
 deployment
 
-[zookeeper:children]
-control
-
 [zun:children]
 control
 
-[skydive:children]
-monitoring
+[skyline:children]
+control
 
 [redis:children]
 control
@@ -221,6 +186,9 @@ control
 
 [venus:children]
 monitoring
+
+[letsencrypt:children]
+loadbalancer
 
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
@@ -244,10 +212,6 @@ common
 
 [opensearch:children]
 control
-
-# TODO: This is used for cleanup and can be removed in the Antelope cycle.
-[elasticsearch-curator:children]
-opensearch
 
 # Opensearch dashboards
 [opensearch-dashboards:children]
@@ -311,6 +275,10 @@ neutron
 [ironic-neutron-agent:children]
 neutron
 
+[neutron-ovn-agent:children]
+compute
+network
+
 # Cinder
 [cinder-api:children]
 cinder
@@ -330,13 +298,6 @@ cloudkitty
 
 [cloudkitty-processor:children]
 cloudkitty
-
-# Freezer
-[freezer-api:children]
-freezer
-
-[freezer-scheduler:children]
-freezer
 
 # iSCSI
 [iscsid:children]
@@ -393,48 +354,6 @@ heat
 [heat-engine:children]
 heat
 
-# Murano
-[murano-api:children]
-murano
-
-[murano-engine:children]
-murano
-
-# Monasca
-[monasca-agent-collector:children]
-monasca-agent
-
-[monasca-agent-forwarder:children]
-monasca-agent
-
-[monasca-agent-statsd:children]
-monasca-agent
-
-[monasca-api:children]
-monasca
-
-[monasca-log-persister:children]
-monasca
-
-[monasca-log-metrics:children]
-monasca
-
-[monasca-thresh:children]
-monasca
-
-[monasca-notification:children]
-monasca
-
-[monasca-persister:children]
-monasca
-
-# Storm
-[storm-worker:children]
-storm
-
-[storm-nimbus:children]
-storm
-
 # Ironic
 [ironic-api:children]
 ironic
@@ -457,32 +376,6 @@ magnum
 
 [magnum-conductor:children]
 magnum
-
-# Sahara
-[sahara-api:children]
-sahara
-
-[sahara-engine:children]
-sahara
-
-# Solum
-[solum-api:children]
-solum
-
-[solum-worker:children]
-solum
-
-[solum-deployer:children]
-solum
-
-[solum-conductor:children]
-solum
-
-[solum-application-deployment:children]
-solum
-
-[solum-image-builder:children]
-solum
 
 # Mistral
 [mistral-api:children]
@@ -568,19 +461,6 @@ watcher
 [watcher-applier:children]
 watcher
 
-# Senlin
-[senlin-api:children]
-senlin
-
-[senlin-conductor:children]
-senlin
-
-[senlin-engine:children]
-senlin
-
-[senlin-health-manager:children]
-senlin
-
 # Octavia
 [octavia-api:children]
 octavia
@@ -636,13 +516,12 @@ compute
 [zun-cni-daemon:children]
 compute
 
-# Skydive
-[skydive-analyzer:children]
-skydive
+# Skyline
+[skyline-apiserver:children]
+skyline
 
-[skydive-agent:children]
-compute
-network
+[skyline-console:children]
+skyline
 
 # Tacker
 [tacker-server:children]
@@ -650,22 +529,6 @@ tacker
 
 [tacker-conductor:children]
 tacker
-
-# Vitrage
-[vitrage-api:children]
-vitrage
-
-[vitrage-notifier:children]
-vitrage
-
-[vitrage-graph:children]
-vitrage
-
-[vitrage-ml:children]
-vitrage
-
-[vitrage-persistor:children]
-vitrage
 
 # Blazar
 [blazar-api:children]
@@ -684,9 +547,6 @@ storage
 
 [prometheus-mysqld-exporter:children]
 mariadb
-
-[prometheus-haproxy-exporter:children]
-loadbalancer
 
 [prometheus-memcached-exporter:children]
 memcached
@@ -712,9 +572,6 @@ monitoring
 
 [prometheus-libvirt-exporter:children]
 compute
-
-[prometheus-msteams:children]
-prometheus-alertmanager
 
 [masakari-api:children]
 control
@@ -755,3 +612,9 @@ venus
 
 [venus-manager:children]
 venus
+
+[letsencrypt-webserver:children]
+letsencrypt
+
+[letsencrypt-lego:children]
+letsencrypt

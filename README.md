@@ -13,7 +13,7 @@ We also have a common network 192.168.0.0/24 with DHCP
 
 ### Prerequisites for all machines
 
-- Setup Ubuntu Jammy 22.04 on all hosts
+- Setup Ubuntu Noble 24.04 on all hosts
 - Create a user with passwordless sudo on all machines
 ````bash
 echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$USER
@@ -70,27 +70,33 @@ sudo apt install -y docker.io
 ````bash
 sudo apt install -y git python3-dev libffi-dev gcc libssl-dev
 ````
-- Install PIP
+- Install venv
 ````bash
-sudo apt install -y python3-pip
+sudo apt install -y python3-venv
+````
+- Create a virtual env
+````bash
+mkdir ~/kolla
+python3 -m venv ~/kolla/venv
+source ~/kolla/venv/bin/activate
 ````
 - Ensure you're using the latest version of PIP
 ````bash
-sudo pip install -U pip
+pip install -U pip
 ````
 
 ### Setup Ansible
 
-- Install Ansible. Kolla Ansible requires at least Ansible 4 and supports up to 5.
+- Install Ansible. Kolla Ansible requires at least Ansible 2.16 and supports up to 2.17.
 ````bash
-sudo pip3 install 'ansible>=4,<6'
+pip install 'ansible-core>=2.16,<2.17.99'
 ````
 
 ### Setup Kolla Ansible
 
-- Install Kolla Ansible. We're using the Zed release.
+- Install Kolla Ansible. We're using the 2024.2 release.
 ````bash
-sudo pip3 install git+https://opendev.org/openstack/kolla-ansible@stable/zed
+pip install git+https://opendev.org/openstack/kolla-ansible@stable/2024.2
 ````
 - Create Kolla Ansible configuration directory
 ````bash
@@ -109,11 +115,7 @@ kolla-ansible install-deps
 
 - Download [passwords configuration file](etc/kolla/passwords.yml)
 ````bash
-wget -P /etc/kolla/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/kolla/passwords.yml
-````
-- Generate random passwords
-````bash
-kolla-genpwd
+wget -P /etc/kolla/ <URL REDACTED>
 ````
 
 ### Ansible configuration
@@ -143,7 +145,7 @@ wget -P /etc/kolla/ https://raw.githubusercontent.com/Algueron/openstack-home/ma
 
 - Bootstrap servers with kolla deploy dependencies
 ````bash
-kolla-ansible -i /etc/kolla/multinode bootstrap-servers
+kolla-ansible bootstrap-servers -i /etc/kolla/multinode
 ````
 Note: It may fail due to "docker.service: Start request repeated too quickly.". Just re-run the command which should now be fine.
 
@@ -151,28 +153,28 @@ Note: It may fail due to "docker.service: Start request repeated too quickly.". 
 
 - Generate certificates for Octavia
 ````bash
-kolla-ansible octavia-certificates
+kolla-ansible octavia-certificates -i /etc/kolla/multinode
 ````
 
 ### Pre-checks
 
 - Do pre-deployment checks for hosts
 ````bash
-kolla-ansible -i /etc/kolla/multinode prechecks
+kolla-ansible prechecks -i /etc/kolla/multinode
 ````
 
 ### Deployment
 
 - Finally proceed to actual OpenStack deployment
 ````bash
-kolla-ansible -i /etc/kolla/multinode deploy
+kolla-ansible deploy -i /etc/kolla/multinode
 ````
 
 ### Administrator credentials
 
 - OpenStack requires a clouds.yaml file where credentials for the admin user are set. To generate this file :
 ````bash
-kolla-ansible -i /etc/kolla/multinode post-deploy
+kolla-ansible post-deploy -i /etc/kolla/multinode
 ````
 
 ## Cloud Bootstraping
@@ -181,11 +183,11 @@ kolla-ansible -i /etc/kolla/multinode post-deploy
 
 - On deployment node, install Openstack CLI :
 ````bash
-sudo pip3 install python-openstackclient -c https://releases.openstack.org/constraints/upper/zed
+pip install python-openstackclient
 ````
 - Install Octavia extension
 ````bash
-sudo pip3 install python-octaviaclient -c https://releases.openstack.org/constraints/upper/zed
+pip install python-octaviaclient
 ````
 - Acquire admin credentials
 ````bash
@@ -233,11 +235,11 @@ openstack keypair create --public-key .ssh/id_rsa.pub --type ssh my-key
 
 - On deployment node, download the jammy ubuntu image
 ````bash
-wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
+wget https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
 ````
 - Upload the image to Glance
 ````bash
-openstack image create --disk-format qcow2 --container-format bare   --public --file jammy-server-cloudimg-amd64.img ubuntu-server-22.04
+openstack image create --disk-format qcow2 --container-format bare   --public --file noble-server-cloudimg-amd64.img ubuntu-server-24.04
 ````
 
 ### Flavors creation
@@ -262,7 +264,7 @@ sudo apt install -y debootstrap qemu-utils git kpartx
 ````
 - Acquire the Octavia source code
 ````bash
-git clone https://opendev.org/openstack/octavia -b stable/zed
+git clone https://opendev.org/openstack/octavia -b stable/2024.2
 ````
 - Install diskimage-builder
 ````bash
@@ -373,66 +375,6 @@ For some unknown reason, the lb-health-mgr-sec-grp does not have a rule allowing
 openstack security group rule create --remote-ip "0.0.0.0/0" --protocol udp --dst-port 5555 --ingress --project service lb-health-mgr-sec-grp
 ````
 
-## Skyline Setup
-
-### User setup creation
-
-- On deployment node, copy the Octavia credentials to the network controller
-````bash
-scp /etc/kolla/admin-openrc.sh $USER@compute01:
-````
-- On compute01, log as admin account
-````bash
-source admin-openrc.sh
-````
-- Create a service account
-````bash
-openstack user create --project service --password "<some_password>" skyline
-````
-- Assign an admin role on project service
-````bash
-openstack role add --user skyline --project service admin
-````
-
-### Skyline bootstraping
-- Create the configuration directory
-````bash
-sudo mkdir /etc/skyline
-sudo chown $USER: /etc/skyline
-````
-- Download [Skyline configuration file](etc/skyline/skyline.yaml)
-````bash
-wget -P /etc/skyline/ https://raw.githubusercontent.com/Algueron/openstack-home/main/etc/skyline/skyline.yaml
-````
-- Edit the configuration file to set system_user_password
-- Clean the tmp directory
-````bash
-sudo rm -rf /tmp/skyline
-mkdir /tmp/skyline
-````
-- Create the log directory
-````bash
-sudo mkdir -p /var/log/skyline
-````
-- Bootstrap the Skyline service
-````bash
-sudo docker run -d --name skyline_bootstrap -e KOLLA_BOOTSTRAP="" -v /var/log/skyline:/var/log/skyline -v /etc/skyline/skyline.yaml:/etc/skyline/skyline.yaml -v /tmp/skyline:/tmp --net=host 99cloud/skyline:latest
-````
-- Check the container logs, bootstrap must end normally via `exit 0`
-````bash
-sudo docker logs skyline_bootstrap
-````
-- Delete the bootstraping container after bootstrap is complete
-````bash
-sudo docker rm -f skyline_bootstrap
-````
-
-### Skyline Deployment
-
-- Deploy Skyline service
-````bash
-sudo docker run -d --name skyline --restart=always -v /var/log/skyline:/var/log/skyline -v /etc/skyline/skyline.yaml:/etc/skyline/skyline.yaml -v /tmp/skyline:/tmp --net=host 99cloud/skyline:latest
-````
 ## On reboot
 
 - If a machine reboots, use the following script to make Octavia work
